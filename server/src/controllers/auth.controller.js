@@ -21,6 +21,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
+    options.sameSite = "None";
   }
 
   res.status(statusCode).cookie("token", token, options).json({
