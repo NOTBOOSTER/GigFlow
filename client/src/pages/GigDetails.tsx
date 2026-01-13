@@ -88,7 +88,7 @@ const GigDetails = () => {
              <p className="text-gray-700 whitespace-pre-line mb-6">{gig.description}</p>
              
 
-             {currentUser && !isOwner && !hasBid && gig.status !== "assigned" && (
+             {currentUser && !isOwner && !hasBid && gig.status !== "assigned" && currentUser?.role === "freelancer" && (
                  <div className="bg-gray-50 p-6 rounded border border-blue-100">
                      <h3 className="text-lg font-semibold mb-4">Place a Bid</h3>
                      <form onSubmit={handlePlaceBid} className="space-y-4">
