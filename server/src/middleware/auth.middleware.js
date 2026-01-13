@@ -9,6 +9,8 @@ export const protect = asyncHandler(async (req, res, next) => {
 
   if (req.cookies.token) {
     token = req.cookies.token;
+  } else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
   }
 
   if (!token) {
@@ -18,6 +20,11 @@ export const protect = asyncHandler(async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = await User.findById(decoded.id);
+    
+    if (!req.user) {
+      throw new ApiError(401, "User not found");
+    }
+    
     next();
   } catch (err) {
     throw new ApiError(401, "Not authorized to access this route");
