@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import GigCard from '../components/GigCard';
 import { gigApi } from '../api/gig.api';
 import type { Gig } from '../types/gig';
@@ -9,6 +9,7 @@ import { logger } from '../utils/logger';
 const Gigs = () => {
   const [gigs, setGigs] = useState<Gig[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const q = searchParams.get('search') || '';
@@ -32,7 +33,7 @@ const Gigs = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = `/gigs?search=${searchTerm}`;
+    navigate(`/gigs?search=${searchTerm}`);
   };
 
   return (
